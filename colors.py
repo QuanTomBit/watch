@@ -1,0 +1,9 @@
+R = [255, 0, 0] # RED
+G = [0, 255, 0] # GREEN
+B = [0, 0, 255] # BLUE
+T = [0, 225, 255] # TEAL
+Y = [255, 255, 0] # YELLOW
+P = [255, 0, 255] # PURPLE
+O = [255, 125, 0] # ORANGE
+W = [255, 255, 255] # WHITE
+OFF = [0, 0, 0] # NO COLOR (DEFAULT)
