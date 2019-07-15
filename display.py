@@ -1,5 +1,6 @@
 
 # Common Imports
+from datetime import datetime
 
 # Project Specific Imports
 from sense_hat import SenseHat
@@ -19,14 +20,11 @@ def printMat(matrix):
         else:
             print(str(matrix[i]) +', ', end='')
 
-
-def getSteps():
-    print(controller.totalSteps)
-    return str(controller.totalSteps).zfill(5)
+    return None
 
     
-def displayThousandsMain(matrix):
-    steps = getSteps()
+def displayThousandsMain(controller, matrix):
+    steps = str(controller.totalSteps)
 
     thousands = steps[1] # Get thousands of steps
     tensThousands = steps[0] # Get tens of thousands
@@ -37,17 +35,17 @@ def displayThousandsMain(matrix):
 
     # Set tens of thousands value in matrix
     for i in range(len(tensThousandsMat)):
-        matrix[i + 5 * (int(i / 3))] = tensThousandsMat[i]
+        matrix[i + 5 * int(i / 3)] = tensThousandsMat[i]
 
     # Set thousands value in matrix
     for i in range(len(thousandsMat)):
-        matrix[3 + i + 5 * (int(i / 3))] = thousandsMat[i]
+        matrix[3 + i + 5 * int(i / 3)] = thousandsMat[i]
 
     return None
 
 
-def displayHundredsMain(matrix):
-    steps = getSteps()
+def displayHundredsMain(controller, matrix):
+    steps = str(controller.totalSteps)
 
     hundreds = int(steps[2:]) # Get hundreds of steps
     tens = int(steps[3])
@@ -55,12 +53,16 @@ def displayHundredsMain(matrix):
     # Holds the indices of where on the matrix each hundred value is displayed
     pixelIndices = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39]
 
+    # Display hundreds of steps taken by showing green as a full 100 steps
+    # Orange is less than 50, and yellow id over 50
     hunLen = int(hundreds/100)
     for i in range(len(pixelIndices)):
-        if i < hunLen - 1:
+        if i < hunLen:
             matrix[pixelIndices[i]] = clr.G
-        elif i = hunLen:
-            if tens < 5:
+        elif i == hunLen:
+            if tens == 0:
+                matrix[pixelIndices[i]] = clr.OFF
+            elif tens < 5:
                 matrix[pixelIndices[i]] = clr.O
             else:
                 matrix[pixelIndices[i]] = clr.Y
@@ -70,11 +72,23 @@ def displayHundredsMain(matrix):
     return None
 
 
-def displayMain(sensor):
+def displayClockMain(matrix):
+    currTime = datetime.now()
+    hour = num_dicts.getMainScreenHour(currTime.hour)
+    minute = currTime.minute
+
+    for i in range(len(hour)):
+        matrix[hour[i]] = clr.R
+    
+    return None
+
+
+def displayMain(controller, sensor):
     matrix = [clr.OFF for i in range(64)]
 
-    displayThousandsMain(matrix)
-    displayHundredsMain(matrix)
+    displayThousandsMain(controller, matrix)
+    displayHundredsMain(controller, matrix)
+    displayClockMain(matrix)
     sensor.set_pixels(matrix)
     return None
 
@@ -83,8 +97,8 @@ def displayError():
     return None
 
 
-def update(sensor, mode):
+def update(controller, sensor, mode):
     if (mode == modes.MAIN):
-        displayMain(sensor)
+        displayMain(controller, sensor)
     else:
         displayError()

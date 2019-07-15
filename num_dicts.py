@@ -2,7 +2,7 @@
 import colors as clr
 
 
-nums = {
+nums3x5 = {
     '0': [1, 1, 1,
           1, 0, 1,
           1, 0, 1,
@@ -55,10 +55,75 @@ nums = {
           0, 0, 1]
 }
 
+hours = {
+    '1': [0, 1, 1,
+        0, 0, 0,
+        0, 0, 0],
+    '2': [0, 0, 1,
+        0, 0, 1,
+        0, 0, 0],
+    '3': [0, 0, 0,
+        0, 0, 1,
+        0, 0, 0],
+    '4': [0, 0, 0,
+        0, 0, 1,
+        0, 0, 1],
+    '5': [0, 0, 0,
+        0, 0, 0,
+        0, 1, 1],
+    '6': [0, 0, 0,
+        0, 0, 0,
+        0, 1, 0],
+    '7': [0, 0, 0,
+        0, 0, 0,
+        1, 1, 0],
+    '8': [0, 0, 0,
+        1, 0, 0,
+        1, 0, 0],
+    '9': [0, 0, 0,
+        1, 0, 0,
+        0, 0, 0],
+    '10': [1, 0, 0,
+         1, 0, 0,
+         0, 0, 0],
+    '11': [1, 1, 0,
+         0, 0, 0,
+         0, 0, 0],
+    '12': [0, 1, 0,
+         0, 0, 0,
+         0, 0, 0]
+}
+
+hourPixels = {
+    1: [41, 42],
+    2: [42, 50],
+    3: [50],
+    4: [50, 58],
+    5: [57, 58],
+    6: [57],
+    7: [56, 57],
+    8: [48, 56],
+    9: [48],
+    10: [40, 48],
+    11: [40, 41],
+    12: [41]
+}
+
 def getMainScreenNum(num, c):
-    mat = nums[num].copy()
+    mat = nums3x5[num].copy()
     
     for i in range(len(mat)):
         mat[i] = c if mat[i] == 1 else clr.OFF
 
     return mat
+
+def getMainScreenHour(hour):
+    return hourPixels[hour]
+
+
+def getMainScreenClock(hour):
+    mat = hours[str(hour)].copy()
+
+    for i in range(len(mat)):
+        mat[i] = clr.R if mat[i] == 1 else clr.W
+    

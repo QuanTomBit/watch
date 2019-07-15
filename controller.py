@@ -9,19 +9,22 @@ from sense_hat import SenseHat
 import action
 import display
 
+class Controller:
+    def __init__(self):
+        self.sensor = SenseHat()
+        self.totalSteps = 13000
 
-sensor = SenseHat()
-totalSteps = 12600
-timeClock = time.localtime()
+
+    def runWatch(self):
+        # MAIN CONTROL LOOP
+        #while (True):
+        mode = action.getUpdates(self.sensor)
+
+        display.update(self, self.sensor, mode)
+        time.sleep(1)
+
 
 if __name__ == '__main__':
+    con = Controller()
 
-    # MAIN CONTROL LOOP
-    #while (True):
-    for i in range(11):
-        mode = action.getUpdates(sensor)
-        global totalSteps
-        totalSteps = 100
-
-        display.update(sensor, mode)
-        time.sleep(1)
+    con.runWatch()
