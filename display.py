@@ -10,8 +10,6 @@ import modes
 import colors as clr
 import num_dicts
 
-import controller # For accessing global values
-
 
 def printMat(matrix):
     for i in range(len(matrix)):
@@ -22,9 +20,13 @@ def printMat(matrix):
 
     return None
 
+
+def getTotalSteps(controller):
+    return str(controller.totalSteps).zfill(5)
+
     
 def displayThousandsMain(controller, matrix):
-    steps = str(controller.totalSteps)
+    steps = getTotalSteps(controller)
 
     thousands = steps[1] # Get thousands of steps
     tensThousands = steps[0] # Get tens of thousands
@@ -45,7 +47,7 @@ def displayThousandsMain(controller, matrix):
 
 
 def displayHundredsMain(controller, matrix):
-    steps = str(controller.totalSteps)
+    steps = getTotalSteps(controller)
 
     hundreds = int(steps[2:]) # Get hundreds of steps
     tens = int(steps[3])
