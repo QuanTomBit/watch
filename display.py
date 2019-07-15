@@ -16,7 +16,7 @@ def printMat(matrix):
         if i != 0 and (i+1) % 8 == 0:
             print(str(matrix[i]) + '\n')
         else:
-            print(str(matrix[i]) +', ', end='')
+            print(str(matrix[i]) + ', ', end='')
 
     return None
 
