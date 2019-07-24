@@ -95,12 +95,37 @@ def displayMain(controller, sensor):
     return None
 
 
+def displaySunSettings(controller, matrix):
+    sunPixels = [19, 20, 26, 27, 28, 29, 34, 35, 36, 37, 43, 44]
+    if controller.dim:
+        for index in sunPixels:
+            matrix[index] = clr.P
+
+        if not controller.sensor.low_light:
+            controller.sensor.low_light = True
+    else:
+        for index in sunPixels:
+            matrix[index] = clr.Y
+
+        if controller.sensor.low_light:
+            controller.sensor.low_light = False
+
+
+def displaySettings(controller, sensor):
+    matrix = [clr.OFF for i in range(64)]
+
+    displaySunSettings(controller, matrix)
+    sensor.set_pixels(matrix)
+
+
 def displayError():
     return None
 
 
 def update(controller, sensor, mode):
-    if (mode == modes.MAIN):
+    if mode == modes.MAIN:
         displayMain(controller, sensor)
+    elif mode == modes.SETTINGS:
+        displaySettings(controller, sensor)
     else:
         displayError()

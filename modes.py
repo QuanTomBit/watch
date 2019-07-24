@@ -4,3 +4,4 @@ WEATHER = 2 # Current weather screen (image and temp)
 WEATHER_HOUR = 3 # Hourly weather screen
 WEATHER_DAILY = 4 # Daily weather screen
 COMPASS = 5 # Compass screen
+SETTINGS = 6 # User settings screen

@@ -36,22 +36,20 @@ class ActionController:
         for i in range(1, MEASURE_PER_TWO):
             currMeasure = stepSpan[i]
             rate = currMeasure - prevMeasure
-            #print(rate)
             
-            if rate > PEAK:
-                rateOfChange.append(rate)
-            elif rate < PEAK:
-                rateOfChange.append(rate)
+            if rate > PEAK+0.25:
+                rateOfChange.append(FORWARD)
+            elif rate < PEAK-0.25:
+                rateOfChange.append(BACKWARD)
 
         if len(rateOfChange) > 0:
-            for i in range(len(rateOfChange)):
-                if rateOfChange[i] > 0.6:
+            prevRate = rateOfChange[0]
+            for i in range(1, len(rateOfChange)):
+                if rateOfChange[i] != prevRate:
                     numPeaks += 1
-                currRate = rateOfChange[i]
+                prevRate = rateOfChange[i]
 
-        print(numPeaks)
-
-        if numPeaks >= 2 and numPeaks < 7:
+        if numPeaks >= 3 and numPeaks < 7:
             controller.stepSpan = [0 for i in range(MEASURE_PER_TWO)]
             return numPeaks
         else:
@@ -61,6 +59,6 @@ class ActionController:
     def detectSteps(self, controller):
         self.takeMeasurement(controller)
         numSteps = self.checkStepSpan(controller)
-        controller.totalSteps += numSteps * 100
+        controller.totalSteps += numSteps
 
 
